@@ -1,4 +1,5 @@
-﻿using CarRental.Core.Messages.Integrations;
+﻿using CarRental.Core.DomainObjects;
+using CarRental.Core.Messages.Integrations;
 using CarRental.Identidade.API.Models;
 using CarRental.MessageBus;
 using CarRental.WebApi.Core.Controllers;
@@ -21,17 +22,20 @@ namespace CarRental.Identidade.API.Controllers
     {
         private readonly SignInManager<IdentityUser> _sigInManager;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly AppSettings _appSettings;
 
         private readonly IMessageBus _bus;
 
         public AuthController(SignInManager<IdentityUser> sigInManager,
                               UserManager<IdentityUser> userManager,
+                              RoleManager<IdentityRole> roleManager,
                               IOptions<AppSettings> appSettings,
                               IMessageBus bus)
         {
             _sigInManager = sigInManager;
             _userManager = userManager;
+            _roleManager = roleManager;
             _appSettings = appSettings.Value;
             _bus = bus;
         }
@@ -48,11 +52,19 @@ namespace CarRental.Identidade.API.Controllers
                 EmailConfirmed = true
             };
 
-            var result = await _userManager.CreateAsync(user, operatorRegister.Password);
+            var result = await CreateUser(user, Constants.Roles.Operator, operatorRegister.Password);
 
             if (result.Succeeded)
             {
-                return CustomResponse(await GenerateJwt(operatorRegister.Email));
+                //var operatorResult = await CreateOperator(operatorRegister);
+
+                //if (!operatorResult.ValidationResult.IsValid)
+                //{
+                //    await _userManager.DeleteAsync(user);
+                //    return CustomResponse(operatorResult.ValidationResult);
+                //}
+
+                return CustomResponse(await GenerateJwt(operatorRegister.CompanyRegistration));
             }
 
             foreach (var error in result.Errors)
@@ -75,11 +87,19 @@ namespace CarRental.Identidade.API.Controllers
                 EmailConfirmed = true
             };
 
-            var result = await _userManager.CreateAsync(user, customerRegister.Password);
+            var result = await CreateUser(user, Constants.Roles.Customer, customerRegister.Password);
 
             if (result.Succeeded)
             {
-                return CustomResponse(await GenerateJwt(customerRegister.Email));
+                //var operatorResult = await CreateCustomer(customerRegister);
+
+                //if (!operatorResult.ValidationResult.IsValid)
+                //{
+                //    await _userManager.DeleteAsync(user);
+                //    return CustomResponse(operatorResult.ValidationResult);
+                //}
+
+                return CustomResponse(await GenerateJwt(customerRegister.Cpf));
             }
 
             foreach (var error in result.Errors)
@@ -95,11 +115,11 @@ namespace CarRental.Identidade.API.Controllers
         {
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            var result = await _sigInManager.PasswordSignInAsync(userLogin.Email, userLogin.Password, false, true);
+            var result = await _sigInManager.PasswordSignInAsync(userLogin.Username, userLogin.Password, false, true);
 
             if (result.Succeeded)
             {
-                return CustomResponse(await GenerateJwt(userLogin.Email));
+                return CustomResponse(await GenerateJwt(userLogin.Username));
             }
 
             if (result.IsLockedOut)
@@ -111,21 +131,52 @@ namespace CarRental.Identidade.API.Controllers
             return CustomResponse();
         }
 
-        //private async Task<ResponseMessage> RegisterOperator(OperatorRegister operatorRegister)
+        //private Task<ResponseMessage> CreateCustomer(CustomerRegister customerRegister)
         //{
-        //    var user = await _userManager.FindByEmailAsync(operatorRegister.Email);
-
-        //    var userRegisteredEvent = new OperatorRegisteredIntegationEvent(Guid.Parse(user.Id), operatorRegister.Name, operatorRegister.CompanyRegistration);
+        //    throw new NotImplementedException();
         //}
 
-        //private async Task<ResponseMessage> RegisterCustomer(CustomerRegister customer)
-        //{
-
-        //}
-
-        private async Task<UserLoginResponse> GenerateJwt(string email)
+        private async Task<ResponseMessage> CreateOperator(OperatorRegister operatorRegister)
         {
-            var user = await _userManager.FindByEmailAsync(email);
+            var user = await _userManager.FindByEmailAsync(operatorRegister.Email);
+
+            var message = new OperatorRegisteredIntegrationEvent(Guid.Parse(user.Id), operatorRegister.Name, operatorRegister.CompanyRegistration);
+
+            try
+            {
+                return await _bus.RequestAsync<OperatorRegisteredIntegrationEvent, ResponseMessage>(message);
+            }
+            catch
+            {
+                await _userManager.DeleteAsync(user);
+                throw;
+            }
+        }
+
+        private async Task<IdentityResult> CreateUser(IdentityUser user, string role, string password)
+        {
+            var result = await _userManager.CreateAsync(user, password);
+            if (result.Succeeded)
+            {
+                return await AddToRole(user, role);
+            }
+
+            return result;
+        }
+
+        private async Task<IdentityResult> AddToRole(IdentityUser user, string role)
+        {
+            if (!await _roleManager.RoleExistsAsync(role))
+            {
+                await _roleManager.CreateAsync(new IdentityRole { Name = role });
+            }
+
+            return await _userManager.AddToRoleAsync(user, role);
+        }
+
+        private async Task<UserLoginResponse> GenerateJwt(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
             var claims = await _userManager.GetClaimsAsync(user);
 
             var identityClaims = await AddUserClaims(claims, user);
