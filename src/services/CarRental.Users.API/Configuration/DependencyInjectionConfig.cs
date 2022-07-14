@@ -13,8 +13,6 @@ namespace CarRental.Users.API.Configuration
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IOperatorRepository, OperatorRepository>();
             services.AddScoped<UsersContext>();
-
-            services.AddHostedService<RegisterOperatorIntegrationHandler>();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using CarRental.Core.Messages.Integrations;
 using CarRental.Identidade.API.Models;
+using CarRental.MessageBus;
 using CarRental.WebApi.Core.Controllers;
 using CarRental.WebApi.Core.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -22,13 +23,17 @@ namespace CarRental.Identidade.API.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly AppSettings _appSettings;
 
+        private readonly IMessageBus _bus;
+
         public AuthController(SignInManager<IdentityUser> sigInManager,
                               UserManager<IdentityUser> userManager,
-                              IOptions<AppSettings> appSettings)
+                              IOptions<AppSettings> appSettings,
+                              IMessageBus bus)
         {
             _sigInManager = sigInManager;
             _userManager = userManager;
             _appSettings = appSettings.Value;
+            _bus = bus;
         }
 
         [HttpPost("register-operator")]
@@ -106,17 +111,17 @@ namespace CarRental.Identidade.API.Controllers
             return CustomResponse();
         }
 
-        private async Task<ResponseMessage> RegisterOperator(OperatorRegister operatorRegister)
-        {
-            var user = await _userManager.FindByEmailAsync(operatorRegister.Email);
+        //private async Task<ResponseMessage> RegisterOperator(OperatorRegister operatorRegister)
+        //{
+        //    var user = await _userManager.FindByEmailAsync(operatorRegister.Email);
 
-            var userRegisteredEvent = new OperatorRegisteredIntegationEvent(Guid.Parse(user.Id), operatorRegister.Name, operatorRegister.CompanyRegistration);
-        }
+        //    var userRegisteredEvent = new OperatorRegisteredIntegationEvent(Guid.Parse(user.Id), operatorRegister.Name, operatorRegister.CompanyRegistration);
+        //}
 
-        private async Task<ResponseMessage> RegisterCustomer(CustomerRegister customer)
-        {
+        //private async Task<ResponseMessage> RegisterCustomer(CustomerRegister customer)
+        //{
 
-        }
+        //}
 
         private async Task<UserLoginResponse> GenerateJwt(string email)
         {
