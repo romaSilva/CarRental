@@ -14,7 +14,7 @@ namespace CarRental.Users.API.Configuration
                 c.SwaggerDoc("v1", new OpenApiInfo()
                 {
                     Title = "Car Rental Users API",
-                    Description = "API de gestão de usuários do Car Rental",
+                    Description = "API de gestão de usuários da Car Rental",
                     License = new OpenApiLicense() { Name = "MIT", Url = new Uri("https://opensource.org/licenses/MIT") }
                 });
             });

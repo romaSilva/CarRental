@@ -14,7 +14,7 @@ namespace CarRental.Identity.API.Configuration
                 c.SwaggerDoc("v1", new OpenApiInfo()
                 {
                     Title = "Car Rental Identity API",
-                    Description = "API de Identidade da Car Rental.",
+                    Description = "API de identidade da Car Rental.",
                     License = new OpenApiLicense() { Name = "MIT", Url = new Uri("https://opensource.org/licenses/MIT") }
                 });
 

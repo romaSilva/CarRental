@@ -16,6 +16,8 @@ namespace CarRental.WebApi.Core.Controllers
         {
             if (OperationIsValid())
             {
+                if (result == null) return Ok();
+
                 return Ok(result);
             }
 

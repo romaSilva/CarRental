@@ -11,5 +11,9 @@ namespace CarRental.Core.DomainObjects
             public const string Operator = "Operator";
             public const string Customer = "Customer";
         }
+        public static class Claims
+        {
+            public const string Role = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
+        }
     }
 }

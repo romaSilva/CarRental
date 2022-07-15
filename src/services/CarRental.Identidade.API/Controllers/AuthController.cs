@@ -209,7 +209,7 @@ namespace CarRental.Identidade.API.Controllers
 
             foreach (var userRole in userRoles)
             {
-                claims.Add(new Claim("role", userRole));
+                claims.Add(new Claim(Constants.Claims.Role, userRole));
             }
 
             var identityClaims = new ClaimsIdentity();
