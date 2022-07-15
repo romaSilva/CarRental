@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace CarRental.Users.API.Services
 {
-    public class RegisterOperatorIntegrationHandler : BackgroundService
+    public class RegisterCustomerIntegrationHandler : BackgroundService
     {
         private IMessageBus _bus;
         private IServiceProvider _serviceProvider;
 
-        public RegisterOperatorIntegrationHandler(IMessageBus bus, IServiceProvider serviceProvider)
+        public RegisterCustomerIntegrationHandler(IMessageBus bus, IServiceProvider serviceProvider)
         {
             _bus = bus;
             _serviceProvider = serviceProvider;
@@ -29,18 +29,18 @@ namespace CarRental.Users.API.Services
 
         private void SetResponder()
         {
-            _bus.RespondAsync<OperatorRegisteredIntegrationEvent, ResponseMessage>(async request =>
+            _bus.RespondAsync<CustomerRegisteredIntegrationEvent, ResponseMessage>(async request =>
                 await CreateOperator(request));
         }
 
-        private async Task<ResponseMessage> CreateOperator(OperatorRegisteredIntegrationEvent message)
+        private async Task<ResponseMessage> CreateOperator(CustomerRegisteredIntegrationEvent message)
         {
             ValidationResult result;
 
             using (var scope = _serviceProvider.CreateScope())
             {
                 var service = scope.ServiceProvider.GetRequiredService<IUsersAppService>();
-                result = await service.CreateOperator(message);
+                result = await service.CreateCustomer(message);
             }
 
             return new ResponseMessage(result);

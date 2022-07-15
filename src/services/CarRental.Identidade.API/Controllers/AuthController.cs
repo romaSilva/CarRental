@@ -56,13 +56,13 @@ namespace CarRental.Identidade.API.Controllers
 
             if (result.Succeeded)
             {
-                //var operatorResult = await CreateOperator(operatorRegister);
+                var operatorResult = await CreateOperator(operatorRegister);
 
-                //if (!operatorResult.ValidationResult.IsValid)
-                //{
-                //    await _userManager.DeleteAsync(user);
-                //    return CustomResponse(operatorResult.ValidationResult);
-                //}
+                if (!operatorResult.ValidationResult.IsValid)
+                {
+                    await _userManager.DeleteAsync(user);
+                    return CustomResponse(operatorResult.ValidationResult);
+                }
 
                 return CustomResponse(await GenerateJwt(operatorRegister.CompanyRegistration));
             }
@@ -91,13 +91,13 @@ namespace CarRental.Identidade.API.Controllers
 
             if (result.Succeeded)
             {
-                //var operatorResult = await CreateCustomer(customerRegister);
+                var customerResult = await CreateCustomer(customerRegister);
 
-                //if (!operatorResult.ValidationResult.IsValid)
-                //{
-                //    await _userManager.DeleteAsync(user);
-                //    return CustomResponse(operatorResult.ValidationResult);
-                //}
+                if (!customerResult.ValidationResult.IsValid)
+                {
+                    await _userManager.DeleteAsync(user);
+                    return CustomResponse(customerResult.ValidationResult);
+                }
 
                 return CustomResponse(await GenerateJwt(customerRegister.Cpf));
             }
@@ -131,10 +131,22 @@ namespace CarRental.Identidade.API.Controllers
             return CustomResponse();
         }
 
-        //private Task<ResponseMessage> CreateCustomer(CustomerRegister customerRegister)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        private async Task<ResponseMessage> CreateCustomer(CustomerRegister customerRegister)
+        {
+            var user = await _userManager.FindByEmailAsync(customerRegister.Email);
+
+            var message = new CustomerRegisteredIntegrationEvent(Guid.Parse(user.Id), customerRegister.Name, customerRegister.Cpf, customerRegister.BirthDate);
+
+            try
+            {
+                return await _bus.RequestAsync<CustomerRegisteredIntegrationEvent, ResponseMessage>(message);
+            }
+            catch
+            {
+                await _userManager.DeleteAsync(user);
+                throw;
+            }
+        }
 
         private async Task<ResponseMessage> CreateOperator(OperatorRegister operatorRegister)
         {

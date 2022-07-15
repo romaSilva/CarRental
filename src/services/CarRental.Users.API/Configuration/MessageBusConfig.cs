@@ -12,7 +12,8 @@ namespace CarRental.Users.API.Configuration
             IConfiguration configuration)
         {
             services.AddMessageBus(configuration.GetMessageQueueConnection("MessageBus"))
-                .AddHostedService<RegisterOperatorIntegrationHandler>();
+                .AddHostedService<RegisterOperatorIntegrationHandler>()
+                .AddHostedService<RegisterCustomerIntegrationHandler>();
         }
     }
 }
