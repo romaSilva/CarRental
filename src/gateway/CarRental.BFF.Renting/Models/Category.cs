@@ -1,4 +1,4 @@
-﻿namespace CarRental.Fleet.API.Models
+﻿namespace CarRental.BFF.Renting.Models
 {
     public enum Category
     {

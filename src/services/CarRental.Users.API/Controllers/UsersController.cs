@@ -5,6 +5,7 @@ using CarRental.WebApi.Core.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CarRental.Users.API.Controllers
@@ -31,15 +32,16 @@ namespace CarRental.Users.API.Controllers
         }
 
         [HttpGet("customers")]
-        public async Task<IEnumerable<Customer>> GetCustomers()
+        public async Task<IEnumerable<CustomerViewModel>> GetCustomers()
         {
-            return await _usersAppService.GetCustomers();
+            return MapToCustomerViewModel(await _usersAppService.GetCustomers());
         }
 
         [HttpGet("customers/{customerId}")]
-        public async Task<Customer> GetCustomer(Guid customerId)
+        public async Task<CustomerViewModel> GetCustomer(Guid customerId)
         {
-            return await _usersAppService.GetCustomer(customerId);
+            return MapToCustomerViewModel(
+                new List<Customer>() { await _usersAppService.GetCustomer(customerId) }).FirstOrDefault();
         }
 
         [HttpPost("customers/add-address/{customerId}")]
@@ -56,6 +58,24 @@ namespace CarRental.Users.API.Controllers
             }
 
             return CustomResponse();
+        }
+
+        private List<CustomerViewModel> MapToCustomerViewModel(IEnumerable<Customer> customers)
+        {
+            var customersViewModel = new List<CustomerViewModel>();
+
+            foreach (var customer in customers)
+            {
+                customersViewModel.Add(new CustomerViewModel()
+                {
+                    Name = customer.Name,
+                    Cpf = customer.Cpf.Number,
+                    BirthDate = customer.BirthDate,
+                    Address = customer.Address
+                });
+            }
+
+            return customersViewModel;
         }
     }
 }
