@@ -20,8 +20,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\src\building blocks\CarRental.Core\CarRental.Core.csproj" />
-	  <ProjectReference Include="..\src\services\CarRental.Rental.Domain\CarRental.Rental.Domain.csproj" />
+	  <ProjectReference Include="..\..\building blocks\CarRental.Core\CarRental.Core.csproj" />
+	  <ProjectReference Include="..\CarRental.Rental.Domain\CarRental.Rental.Domain.csproj" />
 	</ItemGroup>
 
 </Project>
