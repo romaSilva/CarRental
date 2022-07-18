@@ -22,6 +22,8 @@ namespace CarRental.Rental.API.Application.Commands
 
         public async Task<ValidationResult> Handle(RequestRentalCommand request, CancellationToken cancellationToken)
         {
+            if (!request.IsValid()) return request.ValidationResult;
+
             var rentalRequest = CreateVehicleRental(request);
 
             _vehicleRentalRepository.Add(rentalRequest);
@@ -31,6 +33,8 @@ namespace CarRental.Rental.API.Application.Commands
 
         public async Task<ValidationResult> Handle(AddInspectionCommand request, CancellationToken cancellationToken)
         {
+            if (!request.IsValid()) return request.ValidationResult;
+
             var rental = await _vehicleRentalRepository.GetById(request.RentalId);
 
             if (rental == null)

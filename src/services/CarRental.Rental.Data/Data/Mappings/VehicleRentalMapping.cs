@@ -53,6 +53,9 @@ namespace CarRental.Rental.Data.Data.Mappings
             builder.HasOne(c => c.ReturnInspection)
                 .WithOne(c => c.Rental);
 
+            builder.Property(c => c.RegistryDate)
+                .IsRequired();
+
             builder.ToTable("VehicleRentals");
         }
     }

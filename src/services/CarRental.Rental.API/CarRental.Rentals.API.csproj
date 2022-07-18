@@ -22,7 +22,7 @@
 	  <ProjectReference Include="..\..\building blocks\CarRental.Core\CarRental.Core.csproj" />
 	  <ProjectReference Include="..\..\building blocks\CarRental.MessageBus\CarRental.MessageBus.csproj" />
 	  <ProjectReference Include="..\..\building blocks\CarRental.WebApi.Core\CarRental.WebApi.Core.csproj" />
-	  <ProjectReference Include="..\CarRental.Rental.Data\CarRental.Rental.Data.csproj" />
+	  <ProjectReference Include="..\CarRental.Rental.Data\CarRental.Rentals.Data.csproj" />
 	</ItemGroup>
 
 

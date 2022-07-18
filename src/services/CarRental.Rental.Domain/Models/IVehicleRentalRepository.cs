@@ -9,9 +9,11 @@ namespace CarRental.Rental.Domain.Models
     public interface IVehicleRentalRepository : IRepository<VehicleRental>
     {
         Task<VehicleRental> GetById(Guid rentalId);
+        Task<IEnumerable<VehicleRental>> GetByCustomer(Guid customerId);
         void Add(VehicleRental vehicleRental);
         void Update(VehicleRental rental);
         void AddInspection(ReturnInspection inspection);
+        Task<IEnumerable<VehicleRental>> GetAll();
         void RemoveInspection(ReturnInspection returnInspection);
     }
 }

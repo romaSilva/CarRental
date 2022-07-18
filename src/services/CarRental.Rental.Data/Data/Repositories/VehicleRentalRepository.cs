@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CarRental.Rental.Data.Data.Repositories
@@ -19,6 +20,21 @@ namespace CarRental.Rental.Data.Data.Repositories
 
         public IUnitOfWork UnitOfWork => _context;
 
+        public async Task<IEnumerable<VehicleRental>> GetByCustomer(Guid customerId)
+        {
+            return await _context.Rentals.Include(r => r.ReturnInspection).Where(r => r.CustomerId == customerId).ToListAsync();
+        }
+
+        public async Task<IEnumerable<VehicleRental>> GetAll()
+        {
+            return await _context.Rentals.AsNoTracking().ToListAsync();
+        }
+
+        public async Task<VehicleRental> GetById(Guid rentalId)
+        {
+            return await _context.Rentals.Include(r => r.ReturnInspection).FirstOrDefaultAsync(r => r.Id == rentalId);
+        }
+
         public void Add(VehicleRental vehicleRental)
         {
             _context.Rentals.Add(vehicleRental);
@@ -27,11 +43,6 @@ namespace CarRental.Rental.Data.Data.Repositories
         public void AddInspection(ReturnInspection inspection)
         {
             _context.Inspections.Add(inspection);
-        }
-
-        public async Task<VehicleRental> GetById(Guid rentalId)
-        {
-            return await _context.Rentals.Include(r => r.ReturnInspection).FirstOrDefaultAsync(r => r.Id == rentalId);
         }
 
         public void RemoveInspection(ReturnInspection returnInspection)

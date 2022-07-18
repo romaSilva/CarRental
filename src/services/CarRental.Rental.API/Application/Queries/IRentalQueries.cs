@@ -7,7 +7,7 @@ namespace CarRental.Rental.API.Application.Queries
 {
     public interface IRentalQueries
     {
-        Task<IEnumerable<VehicleRentalDto>> GetRentalsByCustomer(Guid guid);
+        Task<IEnumerable<VehicleRentalDto>> GetRentalsByCustomer(Guid customerId);
         Task<IEnumerable<VehicleRentalDto>> GetRentals();
     }
 }

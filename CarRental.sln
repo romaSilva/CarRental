@@ -35,17 +35,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRental.Fleet.API", "src\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Renting", "Renting", "{283D099C-9C44-43DF-A25D-1A769DB6F64E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Rental", "Rental", "{07EEC334-C149-48FB-91C4-83E914413C3C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Rentals", "Rentals", "{07EEC334-C149-48FB-91C4-83E914413C3C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRental.BFF.Renting", "src\gateway\CarRental.BFF.Renting\CarRental.BFF.Renting.csproj", "{86A4AF3F-EF78-4325-BB38-DD68607064B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRental.Rental.API", "src\services\CarRental.Rental.API\CarRental.Rental.API.csproj", "{0087D224-B8F0-4B11-8C8F-1266095A5BBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRental.Rentals.API", "src\services\CarRental.Rental.API\CarRental.Rentals.API.csproj", "{0087D224-B8F0-4B11-8C8F-1266095A5BBE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Document", "Document", "{34980B86-E269-4EB4-B8CC-48BE2CE84AD0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRental.Rental.Domain", "src\services\CarRental.Rental.Domain\CarRental.Rental.Domain.csproj", "{0090D05D-9E47-4968-BD7F-206DDEAAB8AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRental.Rentals.Domain", "src\services\CarRental.Rental.Domain\CarRental.Rentals.Domain.csproj", "{0090D05D-9E47-4968-BD7F-206DDEAAB8AC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRental.Rental.Data", "src\services\CarRental.Rental.Data\CarRental.Rental.Data.csproj", "{97BCAD92-B652-43E5-B023-3B325491396E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRental.Rentals.Data", "src\services\CarRental.Rental.Data\CarRental.Rentals.Data.csproj", "{97BCAD92-B652-43E5-B023-3B325491396E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

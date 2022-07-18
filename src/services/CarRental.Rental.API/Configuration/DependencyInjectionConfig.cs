@@ -19,9 +19,10 @@ namespace CarRental.Rental.API.Configuration
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IIdentityUserService, IdentityUserService>();
 
-            services.AddScoped<IRequestHandler<RequestRentalCommand, ValidationResult>, RentalCommandHandler>();
-
             services.AddScoped<IMediatorHandler, MediatorHandler>();
+
+            services.AddScoped<IRequestHandler<RequestRentalCommand, ValidationResult>, RentalCommandHandler>();
+            services.AddScoped<IRequestHandler<AddInspectionCommand, ValidationResult>, RentalCommandHandler>();
 
             services.AddScoped<IRentalQueries, RentalQueries>();
 

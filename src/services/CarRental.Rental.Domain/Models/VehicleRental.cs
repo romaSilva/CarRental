@@ -17,6 +17,7 @@ namespace CarRental.Rental.Domain.Models
         public double HourValue { get; private set; }
         public double InitialTotalValue { get; private set; }
         public double AdditionalValue { get; private set; }
+        public DateTime RegistryDate { get; private set; }
 
         public ReturnInspection ReturnInspection { get; private set; }
 
@@ -40,10 +41,10 @@ namespace CarRental.Rental.Domain.Models
             AdditionalValue = 0;
         }
 
-        public void ExtendRental(DateTime returnDate)
+        public void ExtendRental(DateTime newReturnDate)
         {
-            var additionalHours = (returnDate - ReturnDate).TotalHours;
-            ReturnDate = returnDate;
+            var additionalHours = (newReturnDate - ReturnDate).TotalHours;
+            ReturnDate = newReturnDate;
             AdditionalValue = additionalHours * HourValue;
         }
 

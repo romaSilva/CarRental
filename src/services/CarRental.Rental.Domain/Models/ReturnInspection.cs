@@ -11,6 +11,7 @@ namespace CarRental.Rental.Domain.Models
         public bool Deformed { get; private set; }
         public bool Scratched { get; private set; }
         public Guid RentalId { get; private set; }
+        public DateTime RegistryDate { get; private set; }
 
         public VehicleRental Rental { get; private set; }
 
