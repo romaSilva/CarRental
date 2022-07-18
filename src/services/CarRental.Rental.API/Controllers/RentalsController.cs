@@ -4,6 +4,7 @@ using CarRental.Rental.API.Application.Commands;
 using CarRental.Rental.API.Application.Queries;
 using CarRental.WebApi.Core.Controllers;
 using CarRental.WebApi.Core.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -37,7 +38,8 @@ namespace CarRental.Rental.API.Controllers
         }
 
         [HttpGet("in-progress")]
-        public async Task<IActionResult> ListInProgressRentals(RequestRentalCommand rentalRequest)
+        [Authorize]
+        public async Task<IActionResult> ListInProgressRentals()
         {
             return CustomResponse(await _rentalQueries.GetInProgressRentals());
         }

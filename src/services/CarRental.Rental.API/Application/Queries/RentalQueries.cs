@@ -37,6 +37,7 @@ namespace CarRental.Rental.API.Application.Queries
             {
                 rentalDtos.Add(new VehicleRentalDto
                 {
+                    Id = rental.Id,
                     CustomerId = rental.CustomerId,
                     VehicleId = rental.VehicleId,
                     CustomerName = rental.CustomerName,
@@ -49,8 +50,8 @@ namespace CarRental.Rental.API.Application.Queries
                     HourValue = rental.HourValue,
                     InitialTotalValue = rental.InitialTotalValue,
                     AdditionalValue = rental.AdditionalValue,
-                    TotalValue = rental.InitialTotalValue + rental.AdditionalValue
-
+                    TotalValue = rental.InitialTotalValue + rental.AdditionalValue,
+                    Status = rental.Status
                 });
             }
 

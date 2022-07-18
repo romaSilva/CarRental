@@ -21,7 +21,7 @@ namespace CarRental.BFF.Renting.Services
             _httpClient.BaseAddress = new Uri(settings.Value.RentalsUrl);
         }
 
-        public async Task<ResponseResult> AddInspection(ReturnInspectionViewModel returnInspectionViewModel)
+        public async Task<ResponseResult> AddInspection(ReturnInspectionDto returnInspectionViewModel)
         {
             var requestBody = Serialize(returnInspectionViewModel);
 

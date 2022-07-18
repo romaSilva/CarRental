@@ -54,7 +54,7 @@ namespace CarRental.BFF.Renting.Controllers
             var customer = await _usersService.GetCustomer(userId);
             var vehiclesInCategory = await _fleetService.GetVehiclesByCategory(rentVehicleViewModel.Category);
 
-            if (vehiclesInCategory == null)
+            if (vehiclesInCategory == null || !vehiclesInCategory.Any())
             {
                 AddProcessingError("Vehicle no longer available");
                 return CustomResponse();
@@ -77,8 +77,8 @@ namespace CarRental.BFF.Renting.Controllers
         [ClaimsAuthorize(Constants.Claims.Role, Constants.Roles.Operator)]
         public async Task<IActionResult> RegisterReturnInspection(ReturnInspectionViewModel returnInspectionViewModel)
         {
-            returnInspectionViewModel.OperatorId = _identityUserService.GetUserId();
-            return CustomResponse(await _rentalsService.AddInspection(returnInspectionViewModel));
+            var returnInspectionDto = new ReturnInspectionDto(returnInspectionViewModel) { OperatorId = _identityUserService.GetUserId() };
+            return CustomResponse(await _rentalsService.AddInspection(returnInspectionDto));
         }
 
         private bool AnyVehicleAvailable(IEnumerable<VehicleDto> vehiclesInCategory, IEnumerable<RentalDto> unavailableRentals, out VehicleDto vehicle)

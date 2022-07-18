@@ -1,9 +1,11 @@
-﻿using System;
+﻿using CarRental.Rental.Domain.Models;
+using System;
 
 namespace CarRental.Rental.API.Application.Queries
 {
     public class VehicleRentalDto
     {
+        public Guid Id { get; set; }
         public Guid CustomerId { get; set; }
         public Guid VehicleId { get; set; }
         public string CustomerName { get; set; }
@@ -17,5 +19,6 @@ namespace CarRental.Rental.API.Application.Queries
         public double InitialTotalValue { get; set; }
         public double AdditionalValue { get; set; }
         public double TotalValue { get; set; }
+        public RentalStatus Status { get; set; }
     }
 }

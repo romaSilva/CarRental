@@ -9,7 +9,7 @@ namespace CarRental.BFF.Renting.Services
     public interface IRentalsService
     {
         Task<ResponseResult> RequestRental(RentalDto rentalRequest);
-        Task<ResponseResult> AddInspection(ReturnInspectionViewModel returnInspectionViewModel);
+        Task<ResponseResult> AddInspection(ReturnInspectionDto returnInspectionViewModel);
         Task<IEnumerable<RentalDto>> GetRentalsInProgress();
     }
 }
