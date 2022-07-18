@@ -1,5 +1,12 @@
-﻿using CarRental.Rental.Data.Data;
+﻿using CarRental.Core.Mediator;
+using CarRental.Rental.API.Application.Commands;
+using CarRental.Rental.API.Application.Queries;
+using CarRental.Rental.Data.Data;
+using CarRental.Rental.Data.Data.Repositories;
+using CarRental.Rental.Domain.Models;
 using CarRental.WebApi.Core.Identity;
+using FluentValidation.Results;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,20 +19,13 @@ namespace CarRental.Rental.API.Configuration
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IIdentityUserService, IdentityUserService>();
 
-            //// Commands
-            //services.AddScoped<IRequestHandler<AdicionarPedidoCommand, ValidationResult>, PedidoCommandHandler>();
+            services.AddScoped<IRequestHandler<RequestRentalCommand, ValidationResult>, RentalCommandHandler>();
 
-            //// Events
-            //services.AddScoped<INotificationHandler<PedidoRealizadoEvent>, PedidoEventHandler>();
+            services.AddScoped<IMediatorHandler, MediatorHandler>();
 
-            //// Application
-            //services.AddScoped<IMediatorHandler, MediatorHandler>();
-            //services.AddScoped<IVoucherQueries, VoucherQueries>();
-            //services.AddScoped<IPedidoQueries, PedidoQueries>();
+            services.AddScoped<IRentalQueries, RentalQueries>();
 
-            //// Data
-            //services.AddScoped<IPedidoRepository, PedidoRepository>();
-            //services.AddScoped<IVoucherRepository, VoucherRepository>();
+            services.AddScoped<IVehicleRentalRepository, VehicleRentalRepository>();
             services.AddScoped<RentalContext>();
         }
     }

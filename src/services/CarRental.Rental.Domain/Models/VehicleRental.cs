@@ -55,10 +55,12 @@ namespace CarRental.Rental.Domain.Models
 
         private void AddInspectionCosts()
         {
-            AdditionalValue += ReturnInspection.Dirty ? InitialTotalValue * 0.3 : 0;
-            AdditionalValue += ReturnInspection.EmptyTank ? InitialTotalValue * 0.3 : 0;
-            AdditionalValue += ReturnInspection.Deformed ? InitialTotalValue * 0.3 : 0;
-            AdditionalValue += ReturnInspection.Scratched ? InitialTotalValue * 0.3 : 0;
+            var insppectionAddOn = Math.Round(InitialTotalValue * 0.3);
+
+            AdditionalValue += ReturnInspection.Dirty ? insppectionAddOn : 0;
+            AdditionalValue += ReturnInspection.EmptyTank ? insppectionAddOn : 0;
+            AdditionalValue += ReturnInspection.Deformed ? insppectionAddOn : 0;
+            AdditionalValue += ReturnInspection.Scratched ? insppectionAddOn : 0;
         }
     }
 }

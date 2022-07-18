@@ -1,4 +1,5 @@
-﻿using CarRental.Core.Data;
+﻿using CarRental.Core.Communication;
+using CarRental.Core.Data;
 using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,14 @@ namespace CarRental.Core.DomainObjects
         protected void AddErrorMessage(string message)
         {
             ValidationResult.Errors.Add(new ValidationFailure(string.Empty, message));
+        }
+
+        protected StringContent Serialize(object data)
+        {
+            return new StringContent(
+                JsonSerializer.Serialize(data),
+                Encoding.UTF8,
+                "application/json");
         }
 
         protected async Task<T> DeserializeResponse<T>(HttpResponseMessage responseMessage)
@@ -50,6 +59,11 @@ namespace CarRental.Core.DomainObjects
             }
 
             return ValidationResult;
+        }
+
+        protected ResponseResult ReturnSuccessfulResult()
+        {
+            return new ResponseResult();
         }
     }
 }

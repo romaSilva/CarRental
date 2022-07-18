@@ -23,9 +23,5 @@
 		<ProjectReference Include="..\..\building blocks\CarRental.WebApi.Core\CarRental.WebApi.Core.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Data\Repositories\" />
-	</ItemGroup>
-
 
 </Project>

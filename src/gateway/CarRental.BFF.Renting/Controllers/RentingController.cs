@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CarRental.BFF.Renting.Controllers
 {
-    public class RentalsController : MainController
+    public class RentingController : MainController
     {
         private readonly IIdentityUserService _identityUserService;
 
@@ -18,7 +18,7 @@ namespace CarRental.BFF.Renting.Controllers
         private readonly IRentalService _rentalService;
         private readonly IUsersService _usersService;
 
-        public RentalsController(IFleetService fleetService, IRentalService rentalService,
+        public RentingController(IFleetService fleetService, IRentalService rentalService,
                                  IUsersService usersService, IIdentityUserService identityUserService)
         {
             _fleetService = fleetService;
@@ -27,7 +27,7 @@ namespace CarRental.BFF.Renting.Controllers
             _identityUserService = identityUserService;
         }
 
-        [HttpPost("renting/simulate-cost")]
+        [HttpPost("simulate-cost")]
         public async Task<IActionResult> SimulateRentalCost(SimulateRentalPriceViewModel simulateRentalPriceViewModel)
         {
             var vehicle = await _fleetService.GetVehicle(simulateRentalPriceViewModel.VehicleId);
@@ -43,7 +43,7 @@ namespace CarRental.BFF.Renting.Controllers
             return CustomResponse(Math.Round(vehicle.HourValue * hours, 2));
         }
 
-        [HttpPost("renting/rent-vehicle")]
+        [HttpPost("rent-vehicle")]
         [ClaimsAuthorize(Constants.Claims.Role, Constants.Roles.Customer)]
         public async Task<IActionResult> RentVehicle(RentVehicleViewModel rentVehicleViewModel)
         {
@@ -61,6 +61,14 @@ namespace CarRental.BFF.Renting.Controllers
             var rentalRequest = CreateRentalRequest(customer, vehicle, rentVehicleViewModel);
 
             return CustomResponse(await _rentalService.RequestRental(rentalRequest));
+        }
+
+        [HttpPost("return-inspection")]
+        [ClaimsAuthorize(Constants.Claims.Role, Constants.Roles.Operator)]
+        public async Task<IActionResult> RegisterReturnInspection(ReturnInspectionViewModel returnInspectionViewModel)
+        {
+            returnInspectionViewModel.OperatorId = _identityUserService.GetUserId();
+            return CustomResponse(await _rentalService.AddInspection(returnInspectionViewModel));
         }
 
         private RentalDto CreateRentalRequest(CustomerDto customer, VehicleDto vehicle, RentVehicleViewModel rentVehicleViewModel)

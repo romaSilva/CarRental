@@ -3,7 +3,7 @@ using System.Text;
 
 namespace CarRental.Core.Messages.Integrations
 {
-    public abstract class IntegrationEvent
+    public abstract class IntegrationEvent : Event
     {
 
     }
