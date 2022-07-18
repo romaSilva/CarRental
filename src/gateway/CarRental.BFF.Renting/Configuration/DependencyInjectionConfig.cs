@@ -18,7 +18,7 @@ namespace CarRental.BFF.Renting.Configuration
             services.AddHttpClient<IFleetService, FleetService>()
                 .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
 
-            services.AddHttpClient<IRentalService, RentalService>()
+            services.AddHttpClient<IRentalsService, RentalService>()
                 .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
 
             services.AddHttpClient<IUsersService, UsersService>()

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CarRental.Fleet.API.Controllers
@@ -32,6 +33,12 @@ namespace CarRental.Fleet.API.Controllers
         public async Task<Vehicle> GetVehicle(Guid vehicleId)
         {
             return await _context.Vehicles.AsNoTracking().FirstOrDefaultAsync(v => v.Id == vehicleId);
+        }
+
+        [HttpGet("vehicles-in-category/{category}")]
+        public async Task<IEnumerable<Vehicle>> GetVehiclesByCategory(int category)
+        {
+            return await _context.Vehicles.AsNoTracking().Where(v => (int)v.Category == category).ToListAsync();
         }
 
         [HttpPost("vehicles")]

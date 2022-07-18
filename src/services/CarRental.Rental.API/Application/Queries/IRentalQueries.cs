@@ -9,5 +9,6 @@ namespace CarRental.Rental.API.Application.Queries
     {
         Task<IEnumerable<VehicleRentalDto>> GetRentalsByCustomer(Guid customerId);
         Task<IEnumerable<VehicleRentalDto>> GetRentals();
+        Task<IEnumerable<VehicleRentalDto>> GetInProgressRentals();
     }
 }

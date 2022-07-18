@@ -3,6 +3,7 @@ using CarRental.BFF.Renting.Models;
 using CarRental.Core.DomainObjects;
 using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -25,6 +26,15 @@ namespace CarRental.BFF.Renting.Services
             ManageResponseErrors(response);
 
             return await DeserializeResponse<VehicleDto>(response);
+        }
+
+        public async Task<IEnumerable<VehicleDto>> GetVehiclesByCategory(Category category)
+        {
+            var response = await _httpClient.GetAsync($"vehicles-in-category/{(int)category}");
+
+            ManageResponseErrors(response);
+
+            return await DeserializeResponse<IEnumerable<VehicleDto>>(response);
         }
     }
 }

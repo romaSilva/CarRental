@@ -9,6 +9,11 @@ namespace CarRental.Rental.API.Application.Queries
     {
         private readonly IVehicleRentalRepository _vehicleRentalRepository;
 
+        public RentalQueries(IVehicleRentalRepository vehicleRentalRepository)
+        {
+            _vehicleRentalRepository = vehicleRentalRepository;
+        }
+
         public async Task<IEnumerable<VehicleRentalDto>> GetRentals()
         {
             return MapToVehicleRentalDto(await _vehicleRentalRepository.GetAll());
@@ -17,6 +22,11 @@ namespace CarRental.Rental.API.Application.Queries
         public async Task<IEnumerable<VehicleRentalDto>> GetRentalsByCustomer(Guid customerId)
         {
             return MapToVehicleRentalDto(await _vehicleRentalRepository.GetByCustomer(customerId));
+        }
+
+        public async Task<IEnumerable<VehicleRentalDto>> GetInProgressRentals()
+        {
+            return MapToVehicleRentalDto(await _vehicleRentalRepository.GetInProgressRentals());
         }
 
         private IEnumerable<VehicleRentalDto> MapToVehicleRentalDto(IEnumerable<VehicleRental> rentals)

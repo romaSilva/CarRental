@@ -5,12 +5,13 @@ using CarRental.Core.Communication;
 using CarRental.Core.DomainObjects;
 using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace CarRental.BFF.Renting.Services
 {
-    public class RentalService : BaseService, IRentalService
+    public class RentalService : BaseService, IRentalsService
     {
         private readonly HttpClient _httpClient;
 
@@ -20,7 +21,7 @@ namespace CarRental.BFF.Renting.Services
             _httpClient.BaseAddress = new Uri(settings.Value.RentalsUrl);
         }
 
-        public async Task<object> AddInspection(ReturnInspectionViewModel returnInspectionViewModel)
+        public async Task<ResponseResult> AddInspection(ReturnInspectionViewModel returnInspectionViewModel)
         {
             var requestBody = Serialize(returnInspectionViewModel);
 
@@ -28,7 +29,7 @@ namespace CarRental.BFF.Renting.Services
 
             if (!ManageResponseErrors(response)) return await DeserializeResponse<ResponseResult>(response);
 
-            return await DeserializeResponse<ResponseResult>(response);
+            return ReturnSuccessfulResult();
         }
 
         public async Task<ResponseResult> RequestRental(RentalDto rentalRequest)
@@ -40,6 +41,15 @@ namespace CarRental.BFF.Renting.Services
             if (!ManageResponseErrors(response)) return await DeserializeResponse<ResponseResult>(response);
 
             return ReturnSuccessfulResult();
+        }
+
+        public async Task<IEnumerable<RentalDto>> GetRentalsInProgress()
+        {
+            var response = await _httpClient.GetAsync($"in-progress");
+
+            ManageResponseErrors(response);
+
+            return await DeserializeResponse<IEnumerable<RentalDto>>(response);
         }
     }
 }

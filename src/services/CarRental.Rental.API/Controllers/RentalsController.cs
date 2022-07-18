@@ -36,6 +36,12 @@ namespace CarRental.Rental.API.Controllers
             return CustomResponse(await _rentalQueries.GetRentalsByCustomer(_identityUserService.GetUserId()));
         }
 
+        [HttpGet("in-progress")]
+        public async Task<IActionResult> ListInProgressRentals(RequestRentalCommand rentalRequest)
+        {
+            return CustomResponse(await _rentalQueries.GetInProgressRentals());
+        }
+
         [HttpPost("rent-vehicle")]
         [ClaimsAuthorize(Constants.Claims.Role, Constants.Roles.Customer)]
         public async Task<IActionResult> RequestRental(RequestRentalCommand rentalRequest)

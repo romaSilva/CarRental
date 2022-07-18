@@ -18,6 +18,7 @@ namespace CarRental.Rental.Domain.Models
         public double InitialTotalValue { get; private set; }
         public double AdditionalValue { get; private set; }
         public DateTime RegistryDate { get; private set; }
+        public RentalStatus Status { get; private set; }
 
         public ReturnInspection ReturnInspection { get; private set; }
 
@@ -39,6 +40,7 @@ namespace CarRental.Rental.Domain.Models
 
             InitialTotalValue = Math.Round(hourValue * (ReturnDate - RentDate).TotalHours, 2);
             AdditionalValue = 0;
+            Status = RentalStatus.Reserved;
         }
 
         public void ExtendRental(DateTime newReturnDate)
@@ -51,6 +53,7 @@ namespace CarRental.Rental.Domain.Models
         public void AddReturnInspection(ReturnInspection returnInspection)
         {
             ReturnInspection = returnInspection;
+            Status = RentalStatus.Returned;
             AddInspectionCosts();
         }
 

@@ -6,7 +6,9 @@ using CarRental.WebApi.Core.Controllers;
 using CarRental.WebApi.Core.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace CarRental.BFF.Renting.Controllers
 {
@@ -15,14 +17,14 @@ namespace CarRental.BFF.Renting.Controllers
         private readonly IIdentityUserService _identityUserService;
 
         private readonly IFleetService _fleetService;
-        private readonly IRentalService _rentalService;
+        private readonly IRentalsService _rentalsService;
         private readonly IUsersService _usersService;
 
-        public RentingController(IFleetService fleetService, IRentalService rentalService,
+        public RentingController(IFleetService fleetService, IRentalsService rentalService,
                                  IUsersService usersService, IIdentityUserService identityUserService)
         {
             _fleetService = fleetService;
-            _rentalService = rentalService;
+            _rentalsService = rentalService;
             _usersService = usersService;
             _identityUserService = identityUserService;
         }
@@ -50,9 +52,17 @@ namespace CarRental.BFF.Renting.Controllers
             var userId = _identityUserService.GetUserId();
 
             var customer = await _usersService.GetCustomer(userId);
-            var vehicle = await _fleetService.GetVehicle(rentVehicleViewModel.VehicleId);
+            var vehiclesInCategory = await _fleetService.GetVehiclesByCategory(rentVehicleViewModel.Category);
 
-            if (vehicle == null)
+            if (vehiclesInCategory == null)
+            {
+                AddProcessingError("Vehicle no longer available");
+                return CustomResponse();
+            }
+
+            var unavailableRentals = await _rentalsService.GetRentalsInProgress();
+
+            if (!AnyVehicleAvailable(vehiclesInCategory, unavailableRentals, out VehicleDto vehicle))
             {
                 AddProcessingError("Vehicle no longer available");
                 return CustomResponse();
@@ -60,7 +70,7 @@ namespace CarRental.BFF.Renting.Controllers
 
             var rentalRequest = CreateRentalRequest(customer, vehicle, rentVehicleViewModel);
 
-            return CustomResponse(await _rentalService.RequestRental(rentalRequest));
+            return CustomResponse(await _rentalsService.RequestRental(rentalRequest));
         }
 
         [HttpPost("return-inspection")]
@@ -68,7 +78,15 @@ namespace CarRental.BFF.Renting.Controllers
         public async Task<IActionResult> RegisterReturnInspection(ReturnInspectionViewModel returnInspectionViewModel)
         {
             returnInspectionViewModel.OperatorId = _identityUserService.GetUserId();
-            return CustomResponse(await _rentalService.AddInspection(returnInspectionViewModel));
+            return CustomResponse(await _rentalsService.AddInspection(returnInspectionViewModel));
+        }
+
+        private bool AnyVehicleAvailable(IEnumerable<VehicleDto> vehiclesInCategory, IEnumerable<RentalDto> unavailableRentals, out VehicleDto vehicle)
+        {
+            var unavailableIds = unavailableRentals.Select(r => r.VehicleId);
+            vehicle = vehiclesInCategory.FirstOrDefault(v => !unavailableIds.Contains(v.Id));
+
+            return vehicle != null;
         }
 
         private RentalDto CreateRentalRequest(CustomerDto customer, VehicleDto vehicle, RentVehicleViewModel rentVehicleViewModel)

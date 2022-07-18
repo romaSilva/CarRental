@@ -27,7 +27,13 @@ namespace CarRental.Rental.Data.Data.Repositories
 
         public async Task<IEnumerable<VehicleRental>> GetAll()
         {
-            return await _context.Rentals.AsNoTracking().ToListAsync();
+            return await _context.Rentals.AsNoTracking().Include(r => r.ReturnInspection).ToListAsync();
+        }
+
+        public async Task<IEnumerable<VehicleRental>> GetInProgressRentals()
+        {
+            return await _context.Rentals.Include(r => r.ReturnInspection)
+                .Where(r => r.Status == RentalStatus.Located || r.Status == RentalStatus.Reserved).ToListAsync();
         }
 
         public async Task<VehicleRental> GetById(Guid rentalId)

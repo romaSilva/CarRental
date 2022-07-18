@@ -15,5 +15,6 @@ namespace CarRental.Rental.Domain.Models
         void AddInspection(ReturnInspection inspection);
         Task<IEnumerable<VehicleRental>> GetAll();
         void RemoveInspection(ReturnInspection returnInspection);
+        Task<IEnumerable<VehicleRental>> GetInProgressRentals();
     }
 }
