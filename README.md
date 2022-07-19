@@ -4,11 +4,13 @@ Car Rental</h1>
 ## Tecnologias e Ferramentas
 
 - .NET Core
-- MediatR
-- FluentValidations
+- Entity Framework Core
 - Rabbitmq
-- Entity Framewoek Core
-- Swagger
+- [MediatR](https://github.com/jbogard/MediatR)
+- [FluentValidations](https://fluentvalidation.net/)
+- [Swagger](https://swagger.io/solutions/api-documentation/)
+
+
 
 ## Projeto
 
