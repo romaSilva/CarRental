@@ -16,3 +16,4 @@ Car Rental</h1>
 
 Projeto backend de uma aplicação distribuída, desenvolvida em .NET Core 3.1, de uma locadora de veículos.
 
+![image](https://user-images.githubusercontent.com/63595045/179749448-cc76ddbf-8150-4451-8b05-fff620d0fa31.png)
