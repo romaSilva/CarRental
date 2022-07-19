@@ -38,7 +38,6 @@ namespace CarRental.Rental.API.Controllers
         }
 
         [HttpGet("in-progress")]
-        [Authorize]
         public async Task<IActionResult> ListInProgressRentals()
         {
             return CustomResponse(await _rentalQueries.GetInProgressRentals());

@@ -68,6 +68,7 @@ namespace CarRental.Users.API.Controllers
             {
                 customersViewModel.Add(new CustomerViewModel()
                 {
+                    Id = customer.Id,
                     Name = customer.Name,
                     Cpf = customer.Cpf.Number,
                     BirthDate = customer.BirthDate,
