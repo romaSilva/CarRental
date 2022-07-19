@@ -28,7 +28,7 @@ API responsável por validar e manipular dados de usuários não necessariamente
 
 ## Fleet
 
-Catálgo de veículos, pra esse serviço foi implementado um CRUD simples, já que a ideia é ele servir apenas como uma base que armazena os veículos. Para adicionar ou remover veículos, é necessário estar autenticado como operador.
+Catálogo de veículos, pra esse serviço foi implementado um CRUD simples, já que a ideia é ele servir apenas como uma base que armazena os veículos. Para adicionar ou remover veículos, é necessário estar autenticado como operador.
 
 ## Rentals
 
