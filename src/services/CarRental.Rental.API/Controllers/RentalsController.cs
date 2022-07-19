@@ -44,7 +44,6 @@ namespace CarRental.Rental.API.Controllers
         }
 
         [HttpPost("rent-vehicle")]
-        [ClaimsAuthorize(Constants.Claims.Role, Constants.Roles.Customer)]
         public async Task<IActionResult> RequestRental(RequestRentalCommand rentalRequest)
         {
             return CustomResponse(await _mediator.SendCommand(rentalRequest));

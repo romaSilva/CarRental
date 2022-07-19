@@ -47,7 +47,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRental.Rentals.Domain", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRental.Rentals.Data", "src\services\CarRental.Rental.Data\CarRental.Rentals.Data.csproj", "{97BCAD92-B652-43E5-B023-3B325491396E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRental.Documentation.API", "src\services\CarRental.Documentation.API\CarRental.Documentation.API.csproj", "{5320F501-85C5-4FEF-B4E2-2228F28F6CD5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CarRental.Documentation.API", "src\services\CarRental.Documentation.API\CarRental.Documentation.API.csproj", "{5320F501-85C5-4FEF-B4E2-2228F28F6CD5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{BB76C2E3-E3CB-4023-B6A8-A17D1DEC92FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarRental.Rentals.Test", "src\tests\services\CarRental.Rentals.Test\CarRental.Rentals.Test.csproj", "{18FC3373-1650-4AF5-B2EE-5C7F43A70076}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -99,6 +103,10 @@ Global
 		{5320F501-85C5-4FEF-B4E2-2228F28F6CD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5320F501-85C5-4FEF-B4E2-2228F28F6CD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5320F501-85C5-4FEF-B4E2-2228F28F6CD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18FC3373-1650-4AF5-B2EE-5C7F43A70076}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18FC3373-1650-4AF5-B2EE-5C7F43A70076}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18FC3373-1650-4AF5-B2EE-5C7F43A70076}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18FC3373-1650-4AF5-B2EE-5C7F43A70076}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -126,6 +134,8 @@ Global
 		{0090D05D-9E47-4968-BD7F-206DDEAAB8AC} = {07EEC334-C149-48FB-91C4-83E914413C3C}
 		{97BCAD92-B652-43E5-B023-3B325491396E} = {07EEC334-C149-48FB-91C4-83E914413C3C}
 		{5320F501-85C5-4FEF-B4E2-2228F28F6CD5} = {34980B86-E269-4EB4-B8CC-48BE2CE84AD0}
+		{BB76C2E3-E3CB-4023-B6A8-A17D1DEC92FD} = {A86BE167-C134-48A4-ABFE-16B3C4A0A0A6}
+		{18FC3373-1650-4AF5-B2EE-5C7F43A70076} = {BB76C2E3-E3CB-4023-B6A8-A17D1DEC92FD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8F986086-F237-49A4-8FA7-80D388A82DDC}
