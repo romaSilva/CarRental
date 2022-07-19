@@ -1,4 +1,6 @@
 ﻿using CarRental.Core.Messages;
+using CarRental.Core.Messages.Integrations;
+using CarRental.MessageBus;
 using CarRental.Rental.Domain.Models;
 using FluentValidation.Results;
 using MediatR;
@@ -13,11 +15,13 @@ namespace CarRental.Rental.API.Application.Commands
                                         IRequestHandler<AddInspectionCommand, ValidationResult>
     {
         private readonly IVehicleRentalRepository _vehicleRentalRepository;
+        private readonly IMessageBus _bus;
 
 
-        public RentalCommandHandler(IVehicleRentalRepository vehicleRentalRepository)
+        public RentalCommandHandler(IVehicleRentalRepository vehicleRentalRepository, IMessageBus bus)
         {
             _vehicleRentalRepository = vehicleRentalRepository;
+            _bus = bus;
         }
 
         public async Task<ValidationResult> Handle(RequestRentalCommand request, CancellationToken cancellationToken)
@@ -28,7 +32,15 @@ namespace CarRental.Rental.API.Application.Commands
 
             _vehicleRentalRepository.Add(rentalRequest);
 
-            return await SaveChanges(_vehicleRentalRepository.UnitOfWork);
+            var result = await SaveChanges(_vehicleRentalRepository.UnitOfWork);
+
+            if (result.IsValid)
+            {
+                await _bus.PublishAsync(new RentalRegisteredIntegrationEvent(rentalRequest.Id, rentalRequest.CustomerName, rentalRequest.Cpf, rentalRequest.PlateNumber,
+                                                                            rentalRequest.Model, rentalRequest.Year, rentalRequest.RentDate, rentalRequest.ReturnDate));
+            }
+
+            return result;
         }
 
         public async Task<ValidationResult> Handle(AddInspectionCommand request, CancellationToken cancellationToken)

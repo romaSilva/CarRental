@@ -17,8 +17,8 @@ namespace CarRental.Rental.Domain.Models
         public double HourValue { get; private set; }
         public double InitialTotalValue { get; private set; }
         public double AdditionalValue { get; private set; }
-        public DateTime RegistryDate { get; private set; }
         public RentalStatus Status { get; private set; }
+        public DateTime RegistryDate { get; private set; }
 
         public ReturnInspection ReturnInspection { get; private set; }
 

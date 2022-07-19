@@ -12,8 +12,8 @@ namespace CarRental.Users.API.Services
 {
     public class RegisterCustomerIntegrationHandler : BackgroundService
     {
-        private IMessageBus _bus;
-        private IServiceProvider _serviceProvider;
+        private readonly IMessageBus _bus;
+        private readonly IServiceProvider _serviceProvider;
 
         public RegisterCustomerIntegrationHandler(IMessageBus bus, IServiceProvider serviceProvider)
         {
