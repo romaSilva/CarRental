@@ -44,4 +44,6 @@ Serviço para gerar documentos, como contratos. Esse serviço fica ouvindo uma f
 
 API que cuida da orquestração do processo de locação, se comunicando com os demais serviços, e retirando a responsabilidade dessa orquestração do frontend.
 
+Melhorias previstas são, aumentar a cobertura de testes de unidade e configurar um docker compose para facilitar a execução da aplicação.
+
 Para ver a aplicação funcionando, segue o vídeo: https://www.youtube.com/watch?v=8Hy2Xc3Rsn0
