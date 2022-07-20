@@ -6,6 +6,7 @@ Car Rental</h1>
 - .NET Core
 - Entity Framework Core
 - Rabbitmq
+- XUnit
 - [MediatR](https://github.com/jbogard/MediatR)
 - [FluentValidations](https://fluentvalidation.net/)
 - [Swagger](https://swagger.io/solutions/api-documentation/)
